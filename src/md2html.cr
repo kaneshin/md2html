@@ -6,11 +6,11 @@ module Md2html
     def initialize(@io : IO?)
     end
 
-    def to_html(filename)
+    def to_html(text : String?)
       io = @io
       return unless io
-
-      io.puts Markdown.to_html(File.read(filename))
+      return unless text
+      io.puts Markdown.to_html(text)
     end
   end
 end

@@ -7,8 +7,14 @@ OptionParser.parse! do |parser|
   parser.on("-h", "--help", "print this help") { puts parser }
 end
 
+md = Md2html::Md.new(STDOUT)
+
+if !STDIN.tty?
+  md.to_html STDIN.gets_to_end
+  exit 0
+end
+
 if ARGV.empty?
-  puts "missing file operand"
   exit 1
 end
 
@@ -17,6 +23,5 @@ if !File.exists?(filename)
   puts "No such file: " + filename
   exit 1
 end
+md.to_html File.read(filename)
 
-md = Md2html::Md.new(STDOUT)
-md.to_html filename
